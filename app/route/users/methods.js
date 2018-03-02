@@ -1,9 +1,10 @@
 const users = require("../../model/users");
+const perfiles = require("../../model/Perfiles");
 
 
 exports.list = function(req, res, next){
   users.find({}).then(function(response){
-  	res.send(response);
+    res.send(response);
   })
 }
 
@@ -39,7 +40,7 @@ exports.login = function(req,res) {
   users.findOne({userName: req.body.userName, password:req.body.password}, function(err, users){
     if(err) return res.send(500, err.message);
     if (!users) { return res.send(400, "login error, some data is wrong")}
-    res.send({userID:users._id, message: "login success", isLogged:true});
+    res.send({userID:users._id,userProfile:users.perfil, message: "login success", isLogged:true});
   })
 }
 
@@ -63,6 +64,7 @@ exports.update = function(req, res) {
   users.userName = req.body.userName;
   users.password = req.body.password;
   users.email = req.body.email;
+  users.perfil = req.body.perfil;
   users.save(function(err) {
    if(err) return res.send(500, err.message);
    res.status(200).jsonp(users);
