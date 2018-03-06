@@ -9,6 +9,7 @@ let UsersSchema = new mongoose.Schema({
 	email:{ type:String, required:true },
   perfil:{ type:String, required:false }
 });
+
 //exportamos el modelo
 module.exports = mongoose.model('users', UsersSchema );
 
