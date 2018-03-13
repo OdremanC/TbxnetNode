@@ -43,6 +43,7 @@ exports.update = function(req, res) {
  secciones.findById(req.params.id, function(err, secciones) {
   secciones.title = req.body.title;
   secciones.url = req.body.url;
+  secciones.menu = req.body.menu;
   secciones.save(function(err) {
    if(err) return res.send(500, err.message);
    res.status(200).jsonp(secciones);
