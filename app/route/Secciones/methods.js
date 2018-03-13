@@ -8,12 +8,12 @@ exports.list = function(req, res, next){
 }
 
 exports.create = function(req, res){
-    secciones.create(req.body)
+  secciones.create(req.body)
   .then(function(response){
     console.log(response);
-    res.send(response);
+    res.send({secciones:response, mensaje:{tipo: "success", message:"Registro guardado satisfactoriamente!"}});
   }).catch(error =>[
-    res.send(error)
+    res.send({error:error, mensaje:{tipo: "error", message:"Oops!! hubo un error!"}})
   ])
 }
 
@@ -30,8 +30,8 @@ exports.findById = function(req, res) {
 exports.delete = function(req, res) {
   secciones.findById(req.params.id, function(err, secciones) {
     secciones.remove(function(err) {
-      if(err) return res.send(500, err.message);
-      res.json({secciones:secciones, message: 'Successfully deleted' });
+     if(err) return res.send(500, {mensaje:{tipo:"error", message:'Error al Eliminar!'}});
+      res.json({secciones:secciones, mensaje:{tipo:"success", message:'Registo eliminado'} });
       console.log('Successfully deleted')
      });
   });
@@ -46,7 +46,7 @@ exports.update = function(req, res) {
   secciones.menu = req.body.menu;
   secciones.save(function(err) {
    if(err) return res.send(500, err.message);
-   res.status(200).jsonp(secciones);
+   res.status(200).jsonp({secciones:secciones,mensaje:{tipo:"success", message:'Registro actualizado!'} });
    console.log('Successfully updated')
   });
  });
