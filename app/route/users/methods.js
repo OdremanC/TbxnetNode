@@ -1,6 +1,6 @@
 const users = require("../../model/users");
 const perfiles = require("../../model/Perfiles");
-
+const service = require('../../service/services.js');
 
 exports.list = function(req, res, next){
   users.find({}).then(function(response){
@@ -11,10 +11,10 @@ exports.list = function(req, res, next){
 exports.create = function(req, res){
 	  users.create(req.body)
   .then(function(response){
-    console.log(response);
-    res.send(response);
+    res.status(200)
+      .send({token:service.createToken(users),users:response, mensaje:{tipo: "success", message:"Registro guardado satisfactoriamente!"}});
   }).catch(error =>[
-    res.send(error)
+    res.send({error:error, mensaje:{tipo: "error", message:"Oops!! hubo un error!"}})
   ])
 }
 
@@ -40,7 +40,8 @@ exports.login = function(req,res) {
   users.findOne({userName: req.body.userName, password:req.body.password}, function(err, users){
     if(err) return res.send(500, err.message);
     if (!users) { return res.send(400, "login error, some data is wrong")}
-    res.send({userID:users._id,userProfile:users.perfil, message: "login success", isLogged:true});
+    res.status(200)
+      .send({token:service.createToken(users),userID:users._id,userProfile:users.perfil, message: "login success", isLogged:true});
   })
 }
 
@@ -48,8 +49,8 @@ exports.login = function(req,res) {
 exports.delete = function(req, res) {
   users.findById(req.params.id, function(err, users) {
     users.remove(function(err) {
-      if(err) return res.send(500, err.message);
-      res.json({users:users, message: 'Successfully deleted' });
+      if(err) return res.send(500, {mensaje:{tipo:"error", message:'Error al Eliminar!'}});
+      res.json({users:users, mensaje:{tipo:"success", message:'Successfully deleted'} });
       console.log('Successfully deleted')
      });
   });
