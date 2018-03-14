@@ -2,9 +2,11 @@ const users = require("../../model/users");
 const perfiles = require("../../model/Perfiles");
 const service = require('../../service/services.js');
 
+
+
 exports.list = function(req, res, next){
   users.find({}).then(function(response){
-    res.send(response);
+    res.status(200).send(response);
   })
 }
 
@@ -68,7 +70,7 @@ exports.update = function(req, res) {
   users.perfil = req.body.perfil;
   users.save(function(err) {
    if(err) return res.send(500, err.message);
-   res.status(200).jsonp(users);
+   res.status(200).jsonp({users:users,mensaje:{tipo:"success", message:'Registro actualizado!'} });
    console.log('Successfully updated')
   });
  });
