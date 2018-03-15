@@ -17,6 +17,7 @@
     "grid-fs": "^1.0.1",
     "images-upload-middleware": "^1.1.1",
     "joi": "^13.1.2",
+    "jsonwebtoken": "^8.2.0",
     "jwt-simple": "^0.5.1",
     "moment": "^2.21.0",
     "mongoose": "^4.11.11",

@@ -3,7 +3,6 @@ const perfiles = require("../../model/Perfiles");
 const service = require('../../service/services.js');
 
 
-
 exports.list = function(req, res, next){
   users.find({}).then(function(response){
     res.status(200)

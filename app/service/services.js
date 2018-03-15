@@ -1,9 +1,11 @@
 // services.js
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var config = require('../../config');
+const jwt = require('jwt-simple');
+//const jwt = require('jsonwebtoken');
+const moment = require('moment');
+const config = require('../../config');
 
 exports.createToken = function(users) {
+  
   var payload = {
     sub: users._id,
     iat: moment().unix(),

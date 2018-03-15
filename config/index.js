@@ -4,7 +4,7 @@ module.exports = {
 	port: process.env.PORT || 8081,
 	ip: process.env.IP || '0.0.0.0',
 	cors: process.env.CORS || true,
-	TOKEN_SECRET: process.env.TOKEN_SECRET || "tokenultrasecreto",
+	TOKEN_SECRET: process.env.TOKEN_SECRET || "dG9rZW51bHRyYXNlY3JldG8=",
 	mongo: {
 		url: process.env.MONGODB_URI || 'mongodb://127.0.0.1/dev',
 		options: {
