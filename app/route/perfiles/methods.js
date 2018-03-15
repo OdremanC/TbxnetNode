@@ -10,11 +10,11 @@ exports.list = function(req, res, next){
 exports.create = function(req, res){
   if (req.body.perfilName ==='' || req.body.sections.url === '' ) return res.status(400).send({mensaje:{tipo:"error", message:'Debe LLenar todos lo campos!'}});
   perfiles.create(req.body)
-  .then(function(response){
-    console.log(response);
-    res.send({perfil:response, mensaje:{tipo: "success", message:"Registro guardado satisfactoriamente!"}});
+    .then(function(response){
+      res.status(201)
+        .send({perfil:response, mensaje:{tipo: "success", message:"Registro guardado satisfactoriamente!"}});
   }).catch(error =>[
-    res.send({error:error, mensaje:{tipo: "error", message:"Oops!! hubo un error!"}})
+    res.status(400).send({error:error, mensaje:{tipo: "error", message:"Oops!! hubo un error!"}})
   ])
 }
 
@@ -22,8 +22,8 @@ exports.create = function(req, res){
 exports.findById = function(req, res) {
   perfiles.findById(req.params.id, function(err, perfiles) {
     if(err) return res.send(500, err.message);
-    console.log('GET /perfiles/' + req.params.id);
-    res.status(200).jsonp(perfiles);
+    res.status(200)
+      .jsonp(perfiles);
   });
 }; 
 
@@ -33,7 +33,6 @@ exports.delete = function(req, res) {
     perfiles.remove(function(err) {
       if(err) return res.send(500, {mensaje:{tipo:"error", message:'Error al Eliminar!'}});
       res.json({perfiles:perfiles, mensaje:{tipo:"success", message:'Successfully deleted'} });
-      console.log('Successfully deleted')
      });
   });
 };
@@ -46,8 +45,8 @@ exports.update = function(req, res) {
   perfiles.sections = req.body.sections;
   perfiles.save(function(err) {
    if(err) return res.send(500, err.message);
-   res.status(200).jsonp({perfiles:perfiles,mensaje:{tipo:"success", message:'Registro actualizado!'} });
-   console.log('Successfully updated')
+   res.status(200)
+    .jsonp({perfiles:perfiles,mensaje:{tipo:"success", message:'Registro actualizado!'} });
   });
  });
 };

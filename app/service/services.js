@@ -1,6 +1,5 @@
 // services.js
 const jwt = require('jwt-simple');
-//const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const config = require('../../config');
 
