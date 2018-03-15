@@ -1,13 +1,14 @@
-// middleware.js
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var config = require('../../config');
+
+const jwt = require('jwt-simple');
+const moment = require('moment');
+const config = require('../../config');
+const users = require('../model/users.js');
 
 exports.ensureAuthenticated = function(req, res, next) {
   if(!req.headers.authorization) {
     return res
       .status(403)
-        .send({message: "Tu petición no tiene cabecera de autorización"});
+        .send({message: "Sin autorización"});
   }
   
   var token = req.headers.authorization;
@@ -18,7 +19,15 @@ exports.ensureAuthenticated = function(req, res, next) {
       .status(401)
         .send({message: "El token ha expirado"});
   }
-  
+
+  users.findById(payload.sub, function(err, user) {
+    if (!user) {
+      return res
+        .status(403)
+          .send({message: "Sin autorización"});
+    }
+  });
+
   req.users = payload.sub;
   next();
 }
