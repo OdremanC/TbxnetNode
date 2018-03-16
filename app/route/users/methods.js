@@ -3,16 +3,16 @@ const perfiles = require("../../model/Perfiles");
 const service = require('../../service/services.js');
 
 
-exports.list = function(req, res, next){
-  users.find({}).then(function(response){
+exports.list = (req, res, next) => {
+  users.find({}).then((response) =>{
     res.status(200)
       .send(response);
   })
 }
 
-exports.create = function(req, res){
+exports.create = (req, res) => {
 	users.create(req.body)
-    .then(function(response){
+    .then((response) => {
       res.status(200)
         .send({token:service.createToken(users),users:response, mensaje:{tipo: "success", message:"Registro guardado satisfactoriamente!"}});
   }).catch(error =>[
@@ -21,8 +21,8 @@ exports.create = function(req, res){
 }
 
 //get un registro por id
-exports.findById = function(req, res) {
-	users.findById(req.params.id, function(err, users) {
+exports.findById = (req, res) => {
+	users.findById(req.params.id, (err, users) => {
 		if(err) return res.send(500, err.message);
 		console.log('GET /users/' + req.params.id);
 		res.status(200)
@@ -30,8 +30,8 @@ exports.findById = function(req, res) {
 	});
 }; 
 //get un registro por name
-exports.findByName = function(req, res) {
- users.find({userName: req.params.userName}, function(err, users){
+exports.findByName = (req, res) => {
+ users.find({userName: req.params.userName}, (err, users) => {
     if(err) return res.send(500, err.message);
     if (!users) { return res.send(500, err.message)}
     res.status(200)
@@ -40,8 +40,8 @@ exports.findByName = function(req, res) {
 }; 
 
 //login
-exports.login = function(req,res) {
-  users.findOne({userName: req.body.userName, password:req.body.password}, function(err, users){
+exports.login = (req,res) => {
+  users.findOne({userName: req.body.userName, password:req.body.password},(err, users) => {
     if(err) return res.send(500, err.message);
     if (!users) { return res.send(400, "login error, some data is wrong")}
     res.status(200)
@@ -50,8 +50,8 @@ exports.login = function(req,res) {
 }
 
 //DELETE - Borrar un registro con el id
-exports.delete = function(req, res) {
-  users.findById(req.params.id, function(err, users) {
+exports.delete = (req, res) => {
+  users.findById(req.params.id, (err, users) => {
     users.remove(function(err) {
       if(err) return res.send(500, {mensaje:{tipo:"error", message:'Error al Eliminar!'}});
       res.json({users:users, mensaje:{tipo:"success", message:'Successfully deleted'} });

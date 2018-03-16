@@ -13,16 +13,16 @@ exports.ensureAuthenticated = function(req, res, next) {
   }
 
   const token = req.headers.authorization;
-
+  
   try{
-    jwt.decode(token, config.TOKEN_SECRET);
+    jwt.decode(token, config.TOKEN_SECRET, false, 'HS512');
   }catch(err){
     return res
       .status(403)
         .send({message: "Token Error!"});
   }
  
-  const payload = jwt.decode(token, config.TOKEN_SECRET);
+  const payload = jwt.decode(token, config.TOKEN_SECRET, false, 'HS512');
   if(payload.exp <= moment().unix()) {
      return res
       .status(401)

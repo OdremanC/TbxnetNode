@@ -1,15 +1,15 @@
 const secciones = require("../../model/Secciones");
 
-exports.list = function(req, res, next){
-  secciones.find({}).then(function(response){
+exports.list = (req, res, next) => {
+  secciones.find({}).then((response) => {
     res.status(200)
       .send(response);
   });
 }
 
-exports.create = function(req, res){
+exports.create = (req, res) => {
   secciones.create(req.body)
-    .then(function(response){
+    .then((response) => {
       res.status(201)
         .send({secciones:response, mensaje:{tipo: "success", message:"Registro guardado!"}});
   }).catch(error =>[
@@ -19,8 +19,8 @@ exports.create = function(req, res){
 }
 
 //get un registro por id
-exports.findById = function(req, res) {
-  secciones.findById(req.params.id, function(err, secciones) {
+exports.findById = (req, res) => {
+  secciones.findById(req.params.id, (err, secciones) => {
     if(err) return res.send(500, err.message);
     res.status(200)
       .jsonp(secciones);
@@ -28,9 +28,9 @@ exports.findById = function(req, res) {
 }; 
 
 //DELETE - Borrar un registro con el id
-exports.delete = function(req, res) {
-  secciones.findById(req.params.id, function(err, secciones) {
-    secciones.remove(function(err) {
+exports.delete = (req, res) => {
+  secciones.findById(req.params.id, (err, secciones) => {
+    secciones.remove((err) => {
      if(err) return res.send(500, {mensaje:{tipo:"error", message:'Error al Eliminar!'}});
       res.status(200)
         .json({secciones:secciones, mensaje:{tipo:"success", message:'Registo eliminado'} });
@@ -39,12 +39,12 @@ exports.delete = function(req, res) {
 };
 
 //PUT - actualizar un registro existente
-exports.update = function(req, res) {
- secciones.findById(req.params.id, function(err, secciones) {
+exports.update = (req, res) => {
+ secciones.findById(req.params.id,(err, secciones) => {
   secciones.title = req.body.title;
   secciones.url = req.body.url;
   secciones.menu = req.body.menu;
-  secciones.save(function(err) {
+  secciones.save((err) => {
    if(err) return res.send(500, err.message);
     res.status(200)
       .json({secciones:secciones,mensaje:{tipo:"success", message:'Registro actualizado!'} });

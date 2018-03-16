@@ -10,5 +10,5 @@ exports.createToken = function(users) {
     iat: moment().unix(),
     exp: moment().add(1, "days").unix(),
   };
-  return jwt.encode(payload, config.TOKEN_SECRET);
+  return jwt.encode(payload, config.TOKEN_SECRET, 'HS512');
 };
